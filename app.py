@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import gdown
 
 load_dotenv()
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
+MISTRAL_API_KEY = st.secrets["MISTRAL_API_KEY"]
 #Download video
 def download_video(video_url, filename="video.mp4"):
     file_id = video_url.split("/d/")[1].split("/")[0]
