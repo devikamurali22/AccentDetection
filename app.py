@@ -59,7 +59,11 @@ Respond in this JSON format:
     if response.status_code == 200:
         return response.json()['choices'][0]['message']['content'].strip()
     else:
-        return f"Mistral API error: {response.status_code} - {response.text}"
+        return {
+    "accent": "Unknown",
+    "confidence": 0,
+    "explanation": f"Mistral API error: {response.status_code} - {response.text}"
+}
 
 # Streamlit UI
 st.title("English Accent Detection")
