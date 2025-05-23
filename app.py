@@ -10,9 +10,24 @@ load_dotenv()
 MISTRAL_API_KEY = st.secrets["MISTRAL_API_KEY"]
 #Download video
 def download_video(video_url, filename="video.mp4"):
-    file_id = video_url.split("/d/")[1].split("/")[0]
-    direct_url = f"https://drive.google.com/uc?id={file_id}"
-    gdown.download(direct_url, filename, quiet=False)
+    if "drive.google.com" in video_url:
+        try:
+            file_id = video_url.split("/d/")[1].split("/")[0]
+            direct_url = f"https://drive.google.com/uc?id={file_id}"
+            gdown.download(direct_url, filename, quiet=False)
+        except Exception as e:
+            st.error(f"Google Drive download failed: {e}")
+            return None
+    else:
+        try:
+            response = requests.get(video_url, stream=True)
+            response.raise_for_status()
+            with open(filename, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+        except Exception as e:
+            st.error(f"Direct download failed: {e}")
+            return None
     return filename
 #Extract audio
 def extract_audio(video_path, audio_path="audio.wav"):
