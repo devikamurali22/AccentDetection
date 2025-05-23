@@ -82,7 +82,7 @@ Respond in this JSON format:
 
 # Streamlit UI
 st.title("English Accent Detection")
-video_url = st.text_input("Enter public Google Drive video URL")
+video_url = st.text_input("Enter public Google Drive video URL OR a direct .mp4 URL")
 
 if st.button("Analyze Accent"):
     if video_url:
